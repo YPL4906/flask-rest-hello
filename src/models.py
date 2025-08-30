@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import String, Boolean, Integer, DateTime, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 import datetime
-
+#Para subcription_date tuve que usar ChatGPT mas algo informacion por internet, no se si sera asi como lo pediais 
 
 db = SQLAlchemy()
 
@@ -37,7 +37,6 @@ class Planet(db.Model):
     population: Mapped[int] = mapped_column(Integer)
     terrain: Mapped[str] = mapped_column(String(50))
 
-    # Relación con personajes que nacieron en el planeta
     characters = relationship("Character", back_populates="homeworld")
 
     def serialize(self):
@@ -58,7 +57,7 @@ class Character(db.Model):
     birth_year: Mapped[str] = mapped_column(String(20))
     planet_id: Mapped[int] = mapped_column(ForeignKey("planet.id"))
 
-    # Relación con planeta
+
     homeworld = relationship("Planet", back_populates="characters")
 
     def serialize(self):
@@ -78,7 +77,7 @@ class Favorite(db.Model):
     character_id: Mapped[int] = mapped_column(ForeignKey("character.id"), nullable=True)
     planet_id: Mapped[int] = mapped_column(ForeignKey("planet.id"), nullable=True)
 
-    # Relaciones
+
     user = relationship("User", back_populates="favorites")
     character = relationship("Character")
     planet = relationship("Planet")
